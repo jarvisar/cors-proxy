@@ -1,5 +1,5 @@
 {
-  "name": "CorsProxy",
+  "name": "cors-proxy",
   "description": "Simple Cors Proxy",
   "version": "0.0.1",
   "private": true,
@@ -7,5 +7,8 @@
     "express": "~4.4.3",
     "request": "~2.36.0",
     "body-parser": "~1.5.2"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
