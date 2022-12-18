@@ -11,7 +11,7 @@ app.use(bodyParser.json({limit: myLimit}));
 app.all('*', function (req, res, next) {
 
     // Set CORS headers: allow all origins, methods, and headers: you may want to lock this down in a production environment
-    res.header("Access-Control-Allow-Origin", "http://jarvisar.github.io");
+    res.header("Access-Control-Allow-Origin", "http://jarvisar.github.io/");
     res.header("Access-Control-Allow-Methods", "GET");
     res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
     let fs = require('fs');
@@ -24,15 +24,8 @@ app.all('*', function (req, res, next) {
             res.writeHead(200, {
                 'Content-Type': 'text/html'
             });
-            fs.readFile('./index.html', null, function (error, data) {
-                if (error) {
-                    res.writeHead(404);
-                    res.write('Whoops! File not found!');
-                } else {
-                    res.write(data);
-                }
-                res.end();
-            });
+            res.write('test')
+            res.end()
             return;
         }
         request({ url: targetURL + req.url, method: req.method, json: req.body },
