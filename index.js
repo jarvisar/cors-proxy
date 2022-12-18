@@ -14,14 +14,25 @@ app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
     res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
-
+    let fs = require('fs');
     if (req.method === 'OPTIONS') {
         // CORS Preflight
         res.send();
     } else {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
-            res.send(500, { error: 'There is no Target-Endpoint header in the request' });
+            res.writeHead(200, {
+                'Content-Type': 'text/html'
+            });
+            fs.readFile('./index.html', null, function (error, data) {
+                if (error) {
+                    res.writeHead(404);
+                    res.write('Whoops! File not found!');
+                } else {
+                    res.write(data);
+                }
+                res.end();
+            });
             return;
         }
         request({ url: targetURL + req.url, method: req.method, json: req.body },
