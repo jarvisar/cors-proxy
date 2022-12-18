@@ -22,9 +22,9 @@ app.all('*', function (req, res, next) {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
             res.writeHead(200, {
-                'Content-Type': 'text/html'
+                'Content-Type': 'text'
             });
-            res.write('test')
+            res.write('CORS-Proxy')
             res.end()
             return;
         }
