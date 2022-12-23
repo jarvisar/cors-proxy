@@ -13,11 +13,5 @@ header h1 {
   margin: 0;
 }
 main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: 
-    "header header"
-    "content content"
-    "footer footer";
-  grid-gap: 20px;
+  margin: 20px;
 }
