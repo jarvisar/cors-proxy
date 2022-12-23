@@ -16,6 +16,11 @@ app.all('/proxy/TAP/sync', function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET");
     res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
 
+
+    if (req.method === 'OPTIONS') {
+        // CORS Preflight
+        res.send();
+    } else {
     var targetURL = req.header('Target-URL');
 
     if (!targetURL) {
@@ -38,6 +43,7 @@ app.all('/proxy/TAP/sync', function (req, res, next) {
                 console.log(body);
         }).pipe(res);
     }
+}
 });
 
 app.get('/', function(req, res){
