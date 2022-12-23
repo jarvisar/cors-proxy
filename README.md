@@ -24,7 +24,7 @@ The server will listen on port 3000 by default. To use a differnt port, pass the
 
 For example, to run the proxy server on port 3333, run the following command:
 
-``` node index 3333 ````
+``` node index 3333 ```
 
 ## Usage
 To use the proxy, simply make a request to the server with the target URL as a 'Target-URL' header. For example, to make a GET request to https://example.com/api/users, you can use the following URL:
