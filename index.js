@@ -29,7 +29,6 @@ app.all('/proxy/TAP/sync', function (req, res, next) {
                     if (error) { console.error('error: ' + response.statusCode) }
                 }).pipe(res);
             }
-            
         }
         else {
             request({ url: targetURL + req.url.replace('/proxy', ''), method: req.method, json: req.body },
@@ -37,14 +36,10 @@ app.all('/proxy/TAP/sync', function (req, res, next) {
                 if (error) {
                     console.error('error: ' + response.statusCode)
                 }
-//                console.log(body);
             }).pipe(res);
         }
-        
     }
 });
-
-
 
 app.set('port', process.env.PORT || port || 3000);
 
