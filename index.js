@@ -6,53 +6,35 @@ var express = require('express'),
 var myLimit = typeof(process.argv[2]) != 'undefined' ? process.argv[2] : '100kb';
 console.log('Using limit: ', myLimit);
 
-const port = process.argv[2];
-const defaultURL = process.argv[3];
+app.use(bodyParser.json({limit: myLimit}));
 
+app.all('*', function (req, res, next) {
 
-
-app.all('/proxy/TAP/sync', function (req, res, next) {
-
-    // Manually set CORS headers
+    // Set CORS headers: allow all origins, methods, and headers: you may want to lock this down in a production environment
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
     res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
-
 
     if (req.method === 'OPTIONS') {
         // CORS Preflight
         res.send();
     } else {
-    var targetURL = req.header('Target-URL');
-
-    if (!targetURL) {
-        if (defaultURL == undefined){
-            res.send(500, { error: 'Target-URL header is missing from the request.'})
+        var targetURL = req.header('Target-URL');
+        if (!targetURL) {
+            res.send(500, { error: 'There is no Target-Endpoint header in the request' });
             return;
         }
-        else{
-            request({ url: defaultURL + req.url.replace('/proxy', ''), method: req.method, json: req.body },
-                function (error, response, body) {
-                    if (error) { console.error('error: ' + response.statusCode) }
-                console.log(body);
+        request({ url: targetURL + req.url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
+            function (error, response, body) {
+                if (error) {
+                    console.error('error: ' + response.statusCode)
+                }
+//                console.log(body);
             }).pipe(res);
-        }
     }
-    
-        request({ url: targetURL + req.url.replace('/proxy', ''), method: req.method, json: req.body },
-                function (error, response, body) {
-                    if (error) { console.error('error: ' + response.statusCode) }
-                console.log(body);
-        }).pipe(res);
-    
-}
 });
 
-app.get('/', function(req, res){
-    res.sendfile('./index.html')
-});
-
-app.set('port', process.env.PORT || port || 3000);
+app.set('port', process.env.PORT || 3000);
 
 app.listen(app.get('port'), function () {
     console.log('Proxy server listening on port ' + app.get('port'));
