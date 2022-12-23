@@ -1,4 +1,3 @@
-
 # CORS Proxy
 
 This is a simple proxy server that adds the necessary headers to allow Cross-Origin Resource Sharing (CORS) for a specified website.
@@ -8,7 +7,7 @@ This is a simple proxy server that adds the necessary headers to allow Cross-Ori
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
-You will need to have Node.js and npm installed on your machine. You can download them from the [https://nodejs.org/en/](official website) or use a package manager like [https://brew.sh/](Homebrew) (for macOS) or [https://chocolatey.org/](Chocolatey) (for Windows).
+You will need to have Node.js and npm installed on your machine. You can download them from the [official website](https://nodejs.org/en/) or use a package manager like [Homebrew](https://brew.sh/) (for macOS) or [Chocolatey](https://chocolatey.org/) (for Windows).
 
 ### Installation
 1. Clone or download this repository.
