@@ -32,9 +32,7 @@ app.all('/proxy/TAP/sync', function (req, res, next) {
     }
 });
 
-app.get('/', function (req, res) {
-    res.sendfile('./index.html');
-});
+
 
 app.set('port', process.env.PORT || port || 3000);
 
