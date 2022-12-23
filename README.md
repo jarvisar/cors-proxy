@@ -20,7 +20,7 @@ Run the following command to start the proxy server:
 
 ``` node index ```
 
-The server will listen on port 3000 by default. To use a differnt port, pass the port as a parameter.
+The server will listen on port 3000 by default. To use a different port, pass the port as a parameter.
 
 For example, to run the proxy server on port 3333, run the following command:
 
