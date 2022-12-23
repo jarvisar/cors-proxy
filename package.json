@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "body-parser": "~1.5.2",
     "express": "~4.4.3",
-    "request": "~2.36.0",
-    "body-parser": "~1.5.2"
+    "minimist": "^1.2.7",
+    "request": "~2.36.0"
   },
   "engines": {
     "node": "14.x"
