@@ -20,7 +20,11 @@ Run the following command to start the proxy server:
 
 ``` node index ```
 
-The server will listen on port 3000 by default. To change the port, edit line 36 in index.js.
+The server will listen on port 3000 by default. To use a differnt port, pass the port as a parameter.
+
+For example, to run the proxy server on port 3333, run the following command:
+
+``` node index 3333 ````
 
 ## Usage
 To use the proxy, simply make a request to the server with the target URL as a 'Target-URL' header. For example, to make a GET request to https://example.com/api/users, you can use the following URL:
@@ -29,6 +33,12 @@ To use the proxy, simply make a request to the server with the target URL as a '
 
 
 ```{ 'Target-URL': 'https://example.com' } ```
+
+If using during development, a default URL can be set to avoid having to set the Target-URL for every request. If a Target-URL header is present, it will override the default URL.
+
+For example, to set https://example.com/ as the default URL, run the following command:
+
+``` node index 3000 https://example.com/ ```
 
 ## Limitations
 * The proxy only supports HTTP and HTTPS requests.
