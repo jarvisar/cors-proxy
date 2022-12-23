@@ -19,16 +19,28 @@ app.all('/proxy/TAP/sync', function (req, res, next) {
     } else {
         var targetURL = req.header('Target-URL');
         if (!targetURL) {
-            res.send(500, { error: 'There is no Target-Endpoint header in the request' });
-            return;
+            if (defaultURL == undefined) {
+                res.send(500, { error: 'There is no Target-Endpoint header in the request' });
+                return;
+            }
+            else {
+                request({ url: defaultURL + req.url.replace('/proxy', ''), method: req.method, json: req.body },
+                function (error, response, body) {
+                    if (error) { console.error('error: ' + response.statusCode) }
+                }).pipe(res);
+            }
+            
         }
-        request({ url: targetURL + req.url.replace('/proxy', ''), method: req.method, json: req.body },
+        else {
+            request({ url: targetURL + req.url.replace('/proxy', ''), method: req.method, json: req.body },
             function (error, response, body) {
                 if (error) {
                     console.error('error: ' + response.statusCode)
                 }
 //                console.log(body);
             }).pipe(res);
+        }
+        
     }
 });
 
