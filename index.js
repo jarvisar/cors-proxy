@@ -36,13 +36,13 @@ app.all('/proxy/TAP/sync', function (req, res, next) {
             }).pipe(res);
         }
     }
-    else{
+    
         request({ url: targetURL + req.url.replace('/proxy', ''), method: req.method, json: req.body },
                 function (error, response, body) {
                     if (error) { console.error('error: ' + response.statusCode) }
                 console.log(body);
         }).pipe(res);
-    }
+    
 }
 });
 
