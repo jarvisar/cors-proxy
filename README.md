@@ -12,7 +12,7 @@ You will need to have Node.js and npm installed on your machine. You can downloa
 ### Installation
 1. Clone or download this repository.
 2. Open a terminal and navigate to the root directory of the project.
-3. Run npm install to install the required dependencies.
+3. Run ```npm install``` to install the required dependencies.
 
 ### Running the Server
 
