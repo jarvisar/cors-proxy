@@ -3,7 +3,8 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     app = express();
 
-
+const port = process.argv[2];
+const defaultURL = process.argv[3];
 
 app.all('/proxy/TAP/sync', function (req, res, next) {
 
@@ -35,7 +36,7 @@ app.get('/', function (req, res) {
     res.sendfile('./index.html');
 });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || port || 3000);
 
 app.listen(app.get('port'), function () {
     console.log('Proxy server listening on port ' + app.get('port'));
