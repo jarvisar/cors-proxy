@@ -34,11 +34,13 @@ To use the proxy, simply make a request to the 'server URL + /proxy' with a Targ
 
 ```{ 'Target-URL': 'https://example.com' } ```
 
-If using during development, a default URL can be set to avoid having to set the Target-URL for every request. If a Target-URL header is present, it will override the default URL.
+If using during development, a default URL can be set to avoid having to set the Target-URL header for every request. 
 
 For example, to set https://example.com/ as the default URL, run the following command:
 
 ``` node index 3000 https://example.com/ ```
+
+If the Target-URL header is present, it will override the default URL.
 
 ## Limitations
 * The proxy only supports HTTP and HTTPS requests.
