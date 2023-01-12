@@ -43,6 +43,10 @@ app.all('/proxy', function (req, res, next) {
     }
 });
 
+app.get('/tetris', function(req, res){
+    res.sendfile('./tetris.html')
+});
+
 // Show HTML if visiting root of site
 app.get('/', function(req, res) {
     res.sendfile('./index.html')
