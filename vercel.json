@@ -7,7 +7,10 @@
      }
    ],
    "routes": [
-     
+    {
+      "src": "/tetris",
+      "dest": "/tetris.html"
+    },
      {
        "src": "/(.*)",
        "dest": "/"
@@ -15,10 +18,7 @@
      {
       "src": "/",
       "dest": "/index.html"
-    },
-    {
-      "src": "/tetris",
-      "dest": "/tetris.html"
     }
+    
    ]
  }
