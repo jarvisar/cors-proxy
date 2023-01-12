@@ -15,6 +15,10 @@
      {
       "src": "/",
       "dest": "/index.html"
+    },
+    {
+      "src": "/tetris",
+      "dest": "/tetris.html"
     }
    ]
  }
