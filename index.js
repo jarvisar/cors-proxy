@@ -8,7 +8,7 @@ var express = require('express'),
 const port = process.argv[2];
 const defaultURL = process.argv[3];
 
-app.all('/proxy/TAP/sync', function (req, res, next) {
+app.all('/proxy', function (req, res, next) {
 
     // Set headers here. Allows all methods from all origins by default.
     res.header("Access-Control-Allow-Origin", "*");
