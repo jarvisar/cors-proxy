@@ -1,7 +1,6 @@
 // Express.js
 var express = require('express'),
     request = require('request'),
-    bodyParser = require('body-parser'),
     app = express();
 
 // Read parameters from command line
@@ -44,6 +43,7 @@ app.all('/proxy', function (req, res, next) {
     }
 });
 
+// Show HTML if visiting root of site
 app.get('/', function(req, res) {
     res.sendfile('./index.html')
 });
