@@ -41,7 +41,7 @@ For example, to set https://example.com/ as the default URL, pass the target URL
 
 ``` node index 3000 https://example.com/ ```
 
-If the Target-URL header is present, it will override the default URL.
+Note: if a Target-URL header is present in the request, it will override the default URL.
 
 ## Limitations
 * The proxy only supports HTTP and HTTPS requests.
