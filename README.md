@@ -27,7 +27,7 @@ For example, to run the proxy server on port 3333, run the following command:
 ``` node index 3333 ```
 
 ## Usage
-To use the proxy, simply make a request to the 'server URL + /proxy' with a Target-URL header. For example, to make a GET request to https://example.com/api/users, you can use the following URL:
+To use the proxy, simply make a request to `localhost:{port}/proxy` with the target URL as a header named 'Target-URL'. For example, to make a GET request to https://example.com/api/users, you can use the following URL:
 
 ```http://localhost:3000/proxy/api/users ```
 
