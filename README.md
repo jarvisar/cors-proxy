@@ -35,9 +35,9 @@ With the following header:
 
 ```{ 'Target-URL': 'https://example.com' } ```
 
-If using during development, a default URL can be set to avoid having to set the Target-URL header for every request. 
+If using during development, a default URL can be set to avoid having to pass the Target-URL header for every request. 
 
-For example, to set https://example.com/ as the default URL, run the following command:
+For example, to set https://example.com/ as the default URL, pass the target URL as a parameter in the terminal:
 
 ``` node index 3000 https://example.com/ ```
 
