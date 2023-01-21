@@ -31,6 +31,7 @@ To use the proxy, simply make a request to `localhost:{port}/proxy` with the tar
 
 ```http://localhost:3000/proxy/api/users ```
 
+With the following header:
 
 ```{ 'Target-URL': 'https://example.com' } ```
 
