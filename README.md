@@ -27,20 +27,21 @@ For example, to run the proxy server on port 3333, run the following command:
 ``` node index 3333 ```
 
 ## Usage
-To use the proxy, simply make a request to the 'server URL + /proxy' with a Target-URL header. For example, to make a GET request to https://example.com/api/users, you can use the following URL:
+To use the proxy, simply make a request to `localhost:{port}/proxy` with the target URL as a header named 'Target-URL'. For example, to make a GET request to https://example.com/api/users, you can use the following URL:
 
 ```http://localhost:3000/proxy/api/users ```
 
+With the following header:
 
 ```{ 'Target-URL': 'https://example.com' } ```
 
-If using during development, a default URL can be set to avoid having to set the Target-URL header for every request. 
+If using during development, a default URL can be set to avoid having to pass the Target-URL header for every request. 
 
-For example, to set https://example.com/ as the default URL, run the following command:
+For example, to set https://example.com/ as the default URL, pass the target URL as a parameter in the terminal:
 
 ``` node index 3000 https://example.com/ ```
 
-If the Target-URL header is present, it will override the default URL.
+Note: if a Target-URL header is present in the request, it will override the default URL.
 
 ## Limitations
 * The proxy only supports HTTP and HTTPS requests.
