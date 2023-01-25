@@ -57,6 +57,11 @@ app.all('/iframe', function (req, res, next) {
     res.send(iframeHTML);
 });
 
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "frame-src http://server1.sky-map.org/");
+    next();
+});
+
 // Show HTML if visiting root of site
 app.get('/', function(req, res) {
     res.sendfile('./index.html')
