@@ -66,7 +66,7 @@ app.get('/', (req, res) => {
   })
 
 app.get('/aladin', function(req, res) {
-    res.sendFile('./aladin.html')
+    res.sendFile('aladin.html', {root: path.join(__dirname, 'public')});
 });
 
 app.set('port', process.env.PORT || port || 3000);
