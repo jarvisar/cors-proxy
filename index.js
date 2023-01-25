@@ -46,7 +46,7 @@ app.all('/proxy', function (req, res, next) {
 app.all('/iframe', function (req, res, next) {
     // create the iframe HTML string
     var iframeSrc = `http://server1.sky-map.org/skywindow?ra=${req.query.ra_h} ${req.query.ra_m} ${req.query.ra_s}&de=${req.query.de_d} ${req.query.de_m} ${req.query.de_s}&show_grid=1&img_source=DSS2&show_box=1&zoom=8&box_color=white&box_width=30&box_height=30&show_stars=1`;
-    var iframeHTML = `<iframe src="${iframeSrc}" style="width: 100%; height: 100%;"></iframe>`;
+    var iframeHTML = `<iframe src="${iframeSrc}" frameBorder="0" style="width: 100%; height: 100%; overflow: hidden;"></iframe>`;
 
     // set headers
     res.header("Access-Control-Allow-Origin", "*");
