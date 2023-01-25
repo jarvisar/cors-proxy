@@ -62,6 +62,10 @@ app.get('/', function(req, res) {
     res.sendfile('./index.html')
 });
 
+app.get('/aladin', function(req, res) {
+    res.sendfile('./aladin.html')
+});
+
 app.set('port', process.env.PORT || port || 3000);
 
 app.listen(app.get('port'), function () {
