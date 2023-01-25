@@ -15,3 +15,6 @@ header h1 {
 main {
   margin: 20px;
 }
+#aladin-lite-div{
+  overflow: hidden;
+}
