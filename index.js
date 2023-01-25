@@ -59,7 +59,7 @@ app.all('/iframe', function (req, res, next) {
 
 // Show HTML if visiting root of site
 app.get('/', function(req, res) {
-    res.send('./aladin.html');
+    res.sendFile(path.join(__dirname, '/index.html'));
 });
 
 app.get('/aladin', function(req, res) {
