@@ -59,11 +59,11 @@ app.all('/iframe', function (req, res, next) {
 
 // Show HTML if visiting root of site
 app.get('/', function(req, res) {
-    res.sendfile('./index.html')
+    res.sendFile('./index.html')
 });
 
 app.get('/aladin', function(req, res) {
-    res.sendfile('./aladin.html')
+    res.sendFile('./aladin.html')
 });
 
 app.set('port', process.env.PORT || port || 3000);
