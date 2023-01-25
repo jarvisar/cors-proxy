@@ -7,6 +7,8 @@ var express = require('express'),
 const port = process.argv[2];
 const defaultURL = process.argv[3];
 
+app.use(express.static('public'))
+
 app.all('/proxy', function (req, res, next) {
 
     // Set headers here. Allows all methods from all origins by default.
@@ -58,9 +60,9 @@ app.all('/iframe', function (req, res, next) {
 });
 
 // Show HTML if visiting root of site
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '/index.html'));
-});
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+  })
 
 app.get('/aladin', function(req, res) {
     res.sendFile('./aladin.html')
