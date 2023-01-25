@@ -65,7 +65,7 @@ app.get('/', (req, res) => {
     res.sendFile('index.html', {root: path.join(__dirname, 'public')});
   })
 
-app.get('/aladin', function(req, res) {
+  app.get('/aladin', (req, res) => {
     res.sendFile('aladin.html', {root: path.join(__dirname, 'public')});
 });
 
