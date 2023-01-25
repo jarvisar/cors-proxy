@@ -2,7 +2,7 @@
 var express = require('express'),
     request = require('request'),
     app = express();
-    require('./path')
+    var path = require('path');
 
 // Read parameters from command line
 const port = process.argv[2];
