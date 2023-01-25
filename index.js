@@ -46,12 +46,13 @@ app.all('/proxy', function (req, res, next) {
     }
 });
 
-// Show HTML if visiting root of site
-// app.get('/', (req, res) => {
-//     res.sendFile('index.html', {root: path.join(__dirname, 'public')});
-//   })
+//Show HTML if visiting root of site
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+  })
+  
 app.use(express.static(__dirname + '/public'));
-  app.get('/test', (req, res) => {
+  app.get('/aladin', (req, res) => {
     res.sendFile('aladin.html', {root: path.join(__dirname, 'public')});
 });
 
