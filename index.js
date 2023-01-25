@@ -1,11 +1,14 @@
 // Express.js
 var express = require('express'),
     request = require('request'),
+    path = require('path');
     app = express();
-
+    
 // Read parameters from command line
 const port = process.argv[2];
 const defaultURL = process.argv[3];
+
+app.use(express.static('public'))
 
 app.all('/proxy', function (req, res, next) {
 
@@ -43,27 +46,10 @@ app.all('/proxy', function (req, res, next) {
     }
 });
 
-app.all('/iframe', function (req, res, next) {
-    // create the iframe HTML string
-    //var iframeSrc = `//server1.sky-map.org/skywindow?ra=${req.query.ra_h} ${req.query.ra_m} ${req.query.ra_s}&de=${req.query.de_d} ${req.query.de_m} ${req.query.de_s}&show_grid=1&img_source=DSS2&show_box=1&zoom=8&box_color=white&box_width=30&box_height=30&show_stars=1`;
-    //var iframeHTML = `<iframe src="${iframeSrc}" frameBorder="0" style="width: 100%; height: 100%; overflow: hidden;"></iframe>`;
-
-    request.get(`//server1.sky-map.org/skywindow?ra=${req.query.ra_h} ${req.query.ra_m} ${req.query.ra_s}&de=${req.query.de_d} ${req.query.de_m} ${req.query.de_s}&show_grid=1&img_source=DSS2&show_box=1&zoom=8&box_color=white&box_width=30&box_height=30&show_stars=1`, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      res.send(body);
-    }
-  });
-});
-
-app.use(function(req, res, next) {
-    res.setHeader("Content-Security-Policy", "frame-src http://server1.sky-map.org/");
-    next();
-});
-
 // Show HTML if visiting root of site
-app.get('/', function(req, res) {
-    res.sendfile('./index.html')
-});
+app.get('/', (req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+})
 
 app.set('port', process.env.PORT || port || 3000);
 
