@@ -59,7 +59,7 @@ app.all('/iframe', function (req, res, next) {
 
 // Show HTML if visiting root of site
 app.get('/', function(req, res) {
-    res.sendFile('./index.html')
+    res.send("Express on Vercel");
 });
 
 app.get('/aladin', function(req, res) {
