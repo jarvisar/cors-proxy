@@ -4,7 +4,7 @@ This is a simple proxy server that adds the necessary headers to allow Cross-Ori
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+These instructions will get a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 You will need to have Node.js and npm installed on your machine. You can download them from the [official website](https://nodejs.org/en/) or use a package manager like [Homebrew](https://brew.sh/) (for macOS) or [Chocolatey](https://chocolatey.org/) (for Windows).
