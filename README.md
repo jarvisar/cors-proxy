@@ -7,7 +7,7 @@ This is a simple proxy server that adds the necessary headers to allow Cross-Ori
 These instructions will help get a copy the CORS-Proxy up and running on a local machine for development and testing purposes.
 
 ### Prerequisites
-You will need to have Node.js and npm installed on your machine. You can download them from the [official website](https://nodejs.org/en/) or use a package manager like [Homebrew](https://brew.sh/) (for macOS) or [Chocolatey](https://chocolatey.org/) (for Windows).
+Node.js and npm are required for the proxy to run. They can downloaded from the [official website](https://nodejs.org/en/) or can be installed with a package manager like [Homebrew](https://brew.sh/) (for macOS) or [Chocolatey](https://chocolatey.org/) (for Windows).
 
 ### Installation
 1. Clone or download this repository.
@@ -27,7 +27,7 @@ For example, to run the proxy server on port 3333, run the following command:
 ``` node index 3333 ```
 
 ## Usage
-To use the proxy, simply make a request to `localhost:<port>/proxy` with the target URL as a header named 'Target-URL'. For example, to make a GET request to https://example.com/api/users, you can use the following URL:
+To use the proxy, simply make a request to `localhost:<port>/proxy` with the target URL as a header named 'Target-URL'. For example, to make a GET request to https://example.com/api/users, use the following URL:
 
 ```http://localhost:3000/proxy/api/users ```
 
