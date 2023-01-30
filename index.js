@@ -50,11 +50,10 @@ app.all('/proxy', function (req, res, next) {
 app.get('/', (req, res) => {
     res.sendFile('index.html', {root: path.join(__dirname, 'public')});
   })
-  
-app.use(express.static(__dirname + '/public'));
-  app.get('/aladin', (req, res) => {
-    res.sendFile('aladin.html', {root: path.join(__dirname, 'public')});
-});
+
+app.get('/tetris', (req, res) => {
+    res.sendFile('tetris.html', {root: path.join(__dirname, 'public')});
+  })
 
 app.set('port', process.env.PORT || port || 3000);
 
