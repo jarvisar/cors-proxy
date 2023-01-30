@@ -55,7 +55,7 @@ app.get('/tetris', (req, res) => {
 
   app.use(express.static('public'))
 
-app.set('port', process.env.PORT || port || 3000);
+app.set('port', process.env.PORT );
 
 app.listen(app.get('port'), function () {
     console.log('CORS Proxy server listening on port ' + app.get('port'));
