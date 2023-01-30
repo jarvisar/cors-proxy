@@ -46,11 +46,11 @@ app.all('/proxy', function (req, res, next) {
 
 //Show HTML if visiting root of site
 app.get('/', (req, res) => {
-    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
   })
 
 app.get('/tetris', (req, res) => {
-    res.sendFile('tetris.html', {root: path.join(__dirname, 'public')});
+    res.sendFile(path.join(__dirname, 'public', 'tetris.html'));
   })
 
   app.use(express.static('public'))
