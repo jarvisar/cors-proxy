@@ -8,8 +8,6 @@ var express = require('express'),
 const port = process.argv[2];
 const defaultURL = process.argv[3];
 
-app.use(express.static('public'))
-
 app.all('/proxy', function (req, res, next) {
 
     // Set headers here. Allows all methods from all origins by default.
@@ -54,6 +52,8 @@ app.get('/', (req, res) => {
 app.get('/tetris', (req, res) => {
     res.sendFile('tetris.html', {root: path.join(__dirname, 'public')});
   })
+
+  app.use(express.static('public'))
 
 app.set('port', process.env.PORT || port || 3000);
 
