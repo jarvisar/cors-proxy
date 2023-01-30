@@ -8,6 +8,8 @@ var express = require('express'),
 const port = process.argv[2];
 const defaultURL = process.argv[3];
 
+app.use(express.static('public'))
+
 app.all('/proxy', function (req, res, next) {
 
     // Set headers here. Allows all methods from all origins by default.
@@ -46,11 +48,11 @@ app.all('/proxy', function (req, res, next) {
 
 //Show HTML if visiting root of site
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile('index.html', {root: path.join(__dirname, 'public')});
   })
 
 app.get('/tetris', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'tetris.html'));
+    res.sendFile('tetris.html', {root: path.join(__dirname, 'public')});
   })
 
 app.set('port', process.env.PORT || port || 3000);
