@@ -56,12 +56,17 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/tetris', (req, res) => {
   const filePath = path.join(process.cwd(), `/public/tetris.html`);
-  
     const htmlBuffer = fs.readFileSync(filePath);
     res.setHeader('Content-Type', 'text/html');
     res.send(htmlBuffer);
-  
 });
+
+app.get('/aladin', (req, res) => {
+    const filePath = path.join(process.cwd(), `/public/aladin.html`);
+      const htmlBuffer = fs.readFileSync(filePath);
+      res.setHeader('Content-Type', 'text/html');
+      res.send(htmlBuffer);
+  });
 
 app.set('port', process.env.PORT || port || 3000);
 
