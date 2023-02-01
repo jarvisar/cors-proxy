@@ -248,8 +248,8 @@ function loop() {
   // draw the active tetromino
   if (tetromino) {
 
-    // tetromino falls every 35 frames
-    if (++count > 35) {
+    // tetromino falls every 60 frames
+    if (++count > 60) {
       tetromino.row++;
       count = 0;
 
