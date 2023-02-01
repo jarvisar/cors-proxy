@@ -1,0 +1,10 @@
+body {
+  overflow: hidden;
+  text-align: center;
+}
+main {
+  margin: 20px;
+}
+#aladin-lite-div{
+  overflow: hidden;
+}
