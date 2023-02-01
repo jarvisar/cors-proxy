@@ -3,6 +3,7 @@ var express = require('express'),
     request = require('request'),
     app = express();
     var path = require('path');
+    fs = require('fs');
 
 // Read parameters from command line
 const port = process.argv[2];
@@ -50,12 +51,16 @@ app.all('/proxy', function (req, res, next) {
 app.get('/', (req, res) => {
     res.sendFile('index.html', {root: path.join(__dirname, 'public')});
   })
-
-  app.use(express.static('public'))
   
 app.use(express.static(__dirname + '/public'));
-  app.get('/tetris', (req, res) => {
-    res.sendFile('tetris.html', {root: path.join(__dirname, 'public')});
+
+app.get('/tetris', (req, res) => {
+  const filePath = path.join(process.cwd(), `/public/tetris.html`);
+  
+    const htmlBuffer = fs.readFileSync(filePath);
+    res.setHeader('Content-Type', 'text/html');
+    res.send(htmlBuffer);
+  
 });
 
 app.set('port', process.env.PORT || port || 3000);
