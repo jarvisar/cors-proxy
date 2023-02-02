@@ -1,54 +1,51 @@
+<!-- Aladin Lite CSS style file -->
+<link rel="stylesheet" href="https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css" />
+
+<!-- Aladin Lite has a dependency on the jQuery library -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js" charset="utf-8"></script>
 
 
+<!-- Aladin Lite container at requested dimensions -->
+<div id="aladin-lite-div" style="height: 100%; width: 100%;"></div>
 
-    <!-- Aladin Lite CSS style file -->
-    <link rel="stylesheet" href="https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css" />
+<script>
+    
+    $(document).ready(function() {
+        document.getElementsByTagName("html")[0].style.visibility = "visible";
+    });
+</script>
 
-    <!-- Aladin Lite has a dependency on the jQuery library -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js" charset="utf-8"></script>
+<style>
+    html { visibility:hidden; }
+</style>
 
+<!-- Aladin Lite JS code -->
+<script type="text/javascript" src="https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js" charset="utf-8"></script>
 
-    <!-- Aladin Lite container at requested dimensions -->
-    <div id="aladin-lite-div" style="height: 100%; width: 100%;"></div>
+<!-- Creation of Aladin Lite instance with initial parameters -->
+<script type="text/javascript">
+    var aladin = A.aladin('#aladin-lite-div', {fullScreen: true, survey: "P/DSS2/color", showFullscreenControl: false, fov:0.3, target: "Andromeda", zoom: 6});
 
-    <script>
-        
-        $(document).ready(function() {
-            document.getElementsByTagName("html")[0].style.visibility = "visible";
-        });
-    </script>
+    $('input[name=survey]').change(function() {
+        aladin.setImageSurvey($(this).val());
+    });
 
-    <style>
-        html { visibility:hidden; }
-    </style>
-
-    <!-- Aladin Lite JS code -->
-    <script type="text/javascript" src="https://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js" charset="utf-8"></script>
-
-    <!-- Creation of Aladin Lite instance with initial parameters -->
-    <script type="text/javascript">
-        var aladin = A.aladin('#aladin-lite-div', {fullScreen: true, survey: "P/DSS2/color", showFullscreenControl: false, fov:0.3, target: "Andromeda", zoom: 6});
-
-        $('input[name=survey]').change(function() {
-            aladin.setImageSurvey($(this).val());
-        });
-
-        var M1 = A.marker('83.633333', '22.013333', {popupTitle: 'M1 (Crab Nebula)', popupDesc: 'Other Names: NGC 1952'});
-        var M16 = A.marker('274.76', '-13.765', {popupTitle: 'M16 (Eagle Nebula)', popupDesc: 'Other Names: NGC 6611'});
-        var Veil = A.marker('311.408333', '30.708333', {popupTitle: 'Veil Nebula', popupDesc: 'Other Names: NGC 6960'});
-        var Andromeda = A.marker('10.684708', '41.268750', {popupTitle: 'Andromeda Galaxy', popupDesc: '2.537 million light years away'});
-        var M45 = A.marker('56.600833', '24.113889', {popupTitle: 'M45 (Pleiades)', popupDesc: 'Other Names: Seven Sisters'});
-        var LMC = A.marker('80.894167', '-69.756111', {popupTitle: 'Large Magellanic Cloud', popupDesc: '158,200 light years away'});
-        var M42 = A.marker('83.820000', '-5.390000', {popupTitle: 'M42 (Great Orion Nebula)', popupDesc: 'Other Names: NGC 1976 '});
-        var M51 = A.marker('202.469575', '47.195258', {popupTitle: 'M51 (Whirlpool Galaxy)', popupDesc: 'Other Names: Question Mark Galaxy, NGC 5194'});
-        var Leo = A.marker('169.750000', '13.200000', {popupTitle: 'Leo Triplet'});
-        
-        var markerLayer = A.catalog({color: '#ff0000'});
-        var mainLayer = A.catalog({color: '#0000ff'})
-        aladin.addCatalog(markerLayer);
-        aladin.addCatalog(mainLayer);
-        markerLayer.addSources([M1, M16, Veil, Andromeda, M45, LMC, M42, M51, Leo]);
-        mainLayer.addSources([marker1])
-    </script>
+    var M1 = A.marker('83.633333', '22.013333', {popupTitle: 'M1 (Crab Nebula)', popupDesc: 'Other Names: NGC 1952'});
+    var M16 = A.marker('274.76', '-13.765', {popupTitle: 'M16 (Eagle Nebula)', popupDesc: 'Other Names: NGC 6611'});
+    var Veil = A.marker('311.408333', '30.708333', {popupTitle: 'Veil Nebula', popupDesc: 'Other Names: NGC 6960'});
+    var Andromeda = A.marker('10.684708', '41.268750', {popupTitle: 'Andromeda Galaxy', popupDesc: '2.537 million light years away'});
+    var M45 = A.marker('56.600833', '24.113889', {popupTitle: 'M45 (Pleiades)', popupDesc: 'Other Names: Seven Sisters'});
+    var LMC = A.marker('80.894167', '-69.756111', {popupTitle: 'Large Magellanic Cloud', popupDesc: '158,200 light years away'});
+    var M42 = A.marker('83.820000', '-5.390000', {popupTitle: 'M42 (Great Orion Nebula)', popupDesc: 'Other Names: NGC 1976 '});
+    var M51 = A.marker('202.469575', '47.195258', {popupTitle: 'M51 (Whirlpool Galaxy)', popupDesc: 'Other Names: Question Mark Galaxy, NGC 5194'});
+    var Leo = A.marker('169.750000', '13.200000', {popupTitle: 'Leo Triplet'});
+    
+    var markerLayer = A.catalog({color: '#ff0000'});
+    var mainLayer = A.catalog({color: '#0000ff'})
+    aladin.addCatalog(markerLayer);
+    aladin.addCatalog(mainLayer);
+    markerLayer.addSources([M1, M16, Veil, Andromeda, M45, LMC, M42, M51, Leo]);
+    mainLayer.addSources([marker1])
+</script>
 
     
