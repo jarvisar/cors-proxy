@@ -15,7 +15,7 @@ app.all('/proxy', function (req, res, next) {
 
     // Set headers here. Allows all methods from all origins by default.
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+    res.header("Access-Control-Allow-Methods", "GET");
     res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
 
     // Pre-flight
