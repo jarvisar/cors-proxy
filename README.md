@@ -4,4 +4,4 @@ This is a simple proxy server that adds the necessary headers to allow Cross-Ori
 
 Currently the `project` branch is used primarily by the [Exoplanet Archive Search](http://jarvisar.github.io/senior-design)
 
-To get the CORS Proxy up and running on your local machine, visit the [master](https://github.com/jarvisar/cors-proxy) branch.
+To get the CORS Proxy up and running on your local machine for testing and development purposes, visit the [master](https://github.com/jarvisar/cors-proxy) branch.
