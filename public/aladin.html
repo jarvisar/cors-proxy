@@ -23,7 +23,7 @@
 
 <!-- Creation of Aladin Lite instance with initial parameters -->
 <script type="text/javascript">
-    var aladin = A.aladin('#aladin-lite-div', {fullScreen: true, survey: "P/DSS2/color", showFullscreenControl: false, fov:0.3, target: "Andromeda", zoom: 6, showGotoControl: true, showLayersControl: true});
+    var aladin = A.aladin('#aladin-lite-div', {fullScreen: true, survey: "P/DSS2/color", showFullscreenControl: false, fov:0.3, target: "Andromeda", zoom: 6, showGotoControl: true, showLayersControl: true, showSimbadPointerControl: true});
 
     $('input[name=survey]').change(function() {
         aladin.setImageSurvey($(this).val());
