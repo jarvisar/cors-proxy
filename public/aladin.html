@@ -8,6 +8,18 @@
 <!-- Aladin Lite container at requested dimensions -->
 <div id="aladin-lite-div" style="height: 100%; width: 100%;"></div>
 
+<!-- Waypoint list: click an entry to fly to it -->
+<div id="waypoint-panel">
+    <div id="waypoint-header">
+        <span>Waypoints</span>
+        <button id="waypoint-toggle" title="Collapse">&minus;</button>
+    </div>
+    <div id="waypoint-body">
+        <label id="label-toggle"><input type="checkbox" id="show-labels" checked> Show labels</label>
+        <div id="waypoint-list"></div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         document.getElementsByTagName("html")[0].style.visibility = "visible";
@@ -16,6 +28,76 @@
 
 <style>
     html { visibility:hidden; }
+
+    #waypoint-panel {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 100;
+        width: 240px;
+        max-height: calc(100% - 80px);
+        display: flex;
+        flex-direction: column;
+        background: rgba(10, 14, 28, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #eee;
+        font: 13px sans-serif;
+    }
+    #waypoint-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    #waypoint-toggle {
+        background: none;
+        border: none;
+        color: #eee;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+    }
+    #waypoint-body {
+        overflow-y: auto;
+        padding: 0 6px 8px;
+    }
+    #waypoint-panel.collapsed #waypoint-body { display: none; }
+    #label-toggle {
+        display: block;
+        padding: 0 4px 6px;
+        cursor: pointer;
+    }
+    .waypoint-group {
+        margin: 8px 4px 4px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #aaa;
+    }
+    .waypoint-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 5px 6px;
+        background: none;
+        border: none;
+        border-radius: 4px;
+        color: #eee;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+    }
+    .waypoint-item:hover { background: rgba(255, 255, 255, 0.12); }
+    .waypoint-dot {
+        flex: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
 </style>
 
 <!-- Aladin Lite JS code -->
@@ -29,21 +111,132 @@
         aladin.setImageSurvey($(this).val());
     });
 
-    var M1 = A.marker('83.633333', '22.013333', {popupTitle: 'M1 (Crab Nebula)', popupDesc: 'Other Names: NGC 1952'});
-    var M16 = A.marker('274.76', '-13.765', {popupTitle: 'M16 (Eagle Nebula)', popupDesc: 'Other Names: NGC 6611'});
-    var Veil = A.marker('311.408333', '30.708333', {popupTitle: 'Veil Nebula', popupDesc: 'Other Names: NGC 6960'});
-    var Andromeda = A.marker('10.684708', '41.268750', {popupTitle: 'Andromeda Galaxy', popupDesc: '2.537 million light years away'});
-    var M45 = A.marker('56.600833', '24.113889', {popupTitle: 'M45 (Pleiades)', popupDesc: 'Other Names: Seven Sisters'});
-    var LMC = A.marker('80.894167', '-69.756111', {popupTitle: 'Large Magellanic Cloud', popupDesc: '158,200 light years away'});
-    var M42 = A.marker('83.820000', '-5.390000', {popupTitle: 'M42 (Great Orion Nebula)', popupDesc: 'Other Names: NGC 1976 '});
-    var M51 = A.marker('202.469575', '47.195258', {popupTitle: 'M51 (Whirlpool Galaxy)', popupDesc: 'Other Names: Question Mark Galaxy, NGC 5194'});
-    var Leo = A.marker('169.750000', '13.200000', {popupTitle: 'Leo Triplet'});
-    
-    var markerLayer = A.catalog({color: '#ff0000'});
+    // Marker colour per object type
+    var TYPES = {
+        nebula:  {label: 'Nebulae',            color: '#ff4fa3'},
+        galaxy:  {label: 'Galaxies',           color: '#4fc3ff'},
+        cluster: {label: 'Star Clusters',      color: '#ffd23f'},
+        other:   {label: 'Stars & Other',      color: '#7dff6b'}
+    };
+
+    // ra/dec in degrees (J2000); fov is the zoom (degrees) used when flying to the waypoint
+    var WAYPOINTS = [
+        {name: 'M1 (Crab Nebula)', type: 'nebula', ra: 83.633333, dec: 22.013333, fov: 0.3, desc: 'Other Names: NGC 1952. Remnant of a supernova seen in 1054 AD.'},
+        {name: 'M16 (Eagle Nebula)', type: 'nebula', ra: 274.76, dec: -13.765, fov: 0.6, desc: 'Other Names: NGC 6611. Home of the Pillars of Creation.'},
+        {name: 'Veil Nebula', type: 'nebula', ra: 311.408333, dec: 30.708333, fov: 3.5, desc: 'Other Names: NGC 6960. Expanding shell of a supernova ~10,000 years old.'},
+        {name: 'M42 (Great Orion Nebula)', type: 'nebula', ra: 83.82, dec: -5.39, fov: 1, desc: 'Other Names: NGC 1976. Nearest large star-forming region, ~1,344 light years away.'},
+        {name: 'Horsehead Nebula', type: 'nebula', ra: 85.246, dec: -2.458, fov: 0.5, desc: 'Other Names: Barnard 33. Dark dust cloud silhouetted against glowing hydrogen.'},
+        {name: 'M8 (Lagoon Nebula)', type: 'nebula', ra: 270.904, dec: -24.383, fov: 1.2, desc: 'Other Names: NGC 6523. Visible to the naked eye from dark sites.'},
+        {name: 'M20 (Trifid Nebula)', type: 'nebula', ra: 270.596, dec: -23.03, fov: 0.5, desc: 'Other Names: NGC 6514. Emission, reflection and dark nebula in one.'},
+        {name: 'M17 (Omega Nebula)', type: 'nebula', ra: 275.108, dec: -16.177, fov: 0.6, desc: 'Other Names: Swan Nebula, NGC 6618.'},
+        {name: 'Carina Nebula', type: 'nebula', ra: 161.265, dec: -59.868, fov: 2.5, desc: 'Other Names: NGC 3372. Contains Eta Carinae, one of the most massive known stars.'},
+        {name: 'Rosette Nebula', type: 'nebula', ra: 98.4375, dec: 4.998, fov: 2, desc: 'Other Names: NGC 2237. A flower-shaped cloud around a young cluster.'},
+        {name: 'North America Nebula', type: 'nebula', ra: 314.821, dec: 44.529, fov: 3, desc: 'Other Names: NGC 7000. Shaped like the continent.'},
+        {name: 'M27 (Dumbbell Nebula)', type: 'nebula', ra: 299.901, dec: 22.721, fov: 0.2, desc: 'Other Names: NGC 6853. The first planetary nebula ever discovered.'},
+        {name: 'M57 (Ring Nebula)', type: 'nebula', ra: 283.396, dec: 33.029, fov: 0.05, desc: 'Other Names: NGC 6720. A dying star\'s glowing shell.'},
+        {name: 'Helix Nebula', type: 'nebula', ra: 337.411, dec: -20.837, fov: 0.5, desc: 'Other Names: NGC 7293, "Eye of God". One of the closest planetary nebulae.'},
+        {name: 'Cat\'s Eye Nebula', type: 'nebula', ra: 269.639, dec: 66.633, fov: 0.05, desc: 'Other Names: NGC 6543. One of the most complex planetary nebulae known.'},
+
+        {name: 'Andromeda Galaxy', type: 'galaxy', ra: 10.684708, dec: 41.26875, fov: 3.5, desc: '2.537 million light years away. On a collision course with the Milky Way.'},
+        {name: 'M33 (Triangulum Galaxy)', type: 'galaxy', ra: 23.462, dec: 30.66, fov: 1.2, desc: '~2.7 million light years away. Third largest in the Local Group.'},
+        {name: 'Large Magellanic Cloud', type: 'galaxy', ra: 80.894167, dec: -69.756111, fov: 12, desc: '158,200 light years away. A satellite galaxy of the Milky Way.'},
+        {name: 'Small Magellanic Cloud', type: 'galaxy', ra: 13.187, dec: -72.829, fov: 6, desc: '~200,000 light years away. A dwarf companion of the Milky Way.'},
+        {name: 'M51 (Whirlpool Galaxy)', type: 'galaxy', ra: 202.469575, dec: 47.195258, fov: 0.25, desc: 'Other Names: Question Mark Galaxy, NGC 5194. Interacting with its smaller companion.'},
+        {name: 'Leo Triplet', type: 'galaxy', ra: 169.75, dec: 13.2, fov: 1.2, desc: 'M65, M66 and NGC 3628 — three interacting spiral galaxies.'},
+        {name: 'M81 (Bode\'s Galaxy)', type: 'galaxy', ra: 148.888, dec: 69.065, fov: 0.6, desc: 'Other Names: NGC 3031. A grand design spiral ~12 million light years away.'},
+        {name: 'M82 (Cigar Galaxy)', type: 'galaxy', ra: 148.968, dec: 69.68, fov: 0.3, desc: 'Other Names: NGC 3034. A starburst galaxy forming stars 10x faster than the Milky Way.'},
+        {name: 'M101 (Pinwheel Galaxy)', type: 'galaxy', ra: 210.8025, dec: 54.349, fov: 0.6, desc: 'Other Names: NGC 5457. A face-on spiral about twice the size of the Milky Way.'},
+        {name: 'M104 (Sombrero Galaxy)', type: 'galaxy', ra: 189.998, dec: -11.623, fov: 0.2, desc: 'Other Names: NGC 4594. Famous for its bright bulge and dust lane.'},
+        {name: 'Stephan\'s Quintet', type: 'galaxy', ra: 338.99, dec: 33.96, fov: 0.1, desc: 'A compact group of five galaxies, four of them interacting.'},
+
+        {name: 'M45 (Pleiades)', type: 'cluster', ra: 56.600833, dec: 24.113889, fov: 2, desc: 'Other Names: Seven Sisters. ~444 light years away.'},
+        {name: 'M13 (Hercules Cluster)', type: 'cluster', ra: 250.422, dec: 36.46, fov: 0.4, desc: 'Other Names: NGC 6205. Several hundred thousand stars in a ball ~145 light years across.'},
+        {name: 'Omega Centauri', type: 'cluster', ra: 201.697, dec: -47.48, fov: 1, desc: 'Other Names: NGC 5139. The largest globular cluster in the Milky Way, ~10 million stars.'},
+
+        {name: 'Galactic Center (Sgr A*)', type: 'other', ra: 266.417, dec: -29.008, fov: 2, desc: 'The supermassive black hole at the heart of the Milky Way, ~26,000 light years away.'},
+        {name: 'Betelgeuse', type: 'other', ra: 88.793, dec: 7.407, fov: 0.5, desc: 'A red supergiant in Orion that will one day go supernova.'}
+    ];
+
+    var showLabels = true;
+
+    // Draws a large, high-contrast waypoint: dark halo + coloured ring + centre dot + label
+    function drawWaypoint(source, ctx) {
+        var color = TYPES[source.data.type].color;
+        var x = source.x, y = source.y;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, 11, 0, 2 * Math.PI);
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+        ctx.stroke();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, y, 3, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+
+        if (showLabels) {
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            var text = source.data.name;
+            var w = ctx.measureText(text).width;
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+            ctx.fillRect(x + 16, y - 10, w + 10, 20);
+            ctx.fillStyle = color;
+            ctx.fillText(text, x + 21, y);
+        }
+        ctx.restore();
+    }
+
+    var markerLayer = A.catalog({name: 'Waypoints', color: '#ff4fa3', shape: drawWaypoint});
     var mainLayer = A.catalog({color: '#0000ff'})
     aladin.addCatalog(markerLayer);
     aladin.addCatalog(mainLayer);
-    markerLayer.addSources([M1, M16, Veil, Andromeda, M45, LMC, M42, M51, Leo]);
-</script>
 
-    
+    var markers = WAYPOINTS.map(function (wp) {
+        return A.marker(wp.ra, wp.dec, {popupTitle: wp.name, popupDesc: wp.desc}, wp);
+    });
+    markerLayer.addSources(markers);
+
+    // Fly to a waypoint and open its popup
+    function goToWaypoint(i) {
+        var wp = WAYPOINTS[i], marker = markers[i];
+        aladin.gotoRaDec(wp.ra, wp.dec);
+        aladin.setFoV(wp.fov);
+        var popup = aladin.view.popup;
+        popup.setTitle(marker.popupTitle);
+        popup.setText(marker.popupDesc);
+        popup.setSource(marker);
+        popup.show();
+    }
+
+    // Build the waypoint list, grouped by type
+    var list = $('#waypoint-list');
+    $.each(TYPES, function (type, info) {
+        list.append($('<div class="waypoint-group">').text(info.label));
+        $.each(WAYPOINTS, function (i, wp) {
+            if (wp.type !== type) return;
+            var item = $('<button class="waypoint-item">')
+                .append($('<span class="waypoint-dot">').css('background', info.color))
+                .append($('<span>').text(wp.name))
+                .click(function () { goToWaypoint(i); });
+            list.append(item);
+        });
+    });
+
+    $('#show-labels').change(function () {
+        showLabels = this.checked;
+        markerLayer.reportChange();
+    });
+
+    $('#waypoint-toggle').click(function () {
+        var panel = $('#waypoint-panel').toggleClass('collapsed');
+        $(this).html(panel.hasClass('collapsed') ? '+' : '&minus;')
+               .attr('title', panel.hasClass('collapsed') ? 'Expand' : 'Collapse');
+    });
+</script>
